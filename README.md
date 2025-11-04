@@ -7,6 +7,21 @@ CUda Matrix Multiply library.
 Now ```pccm``` become a foundational framework of ```cumm``` and my other c++ project such as [spconv](https://github.com/traveller59/spconv). 
 ```cumm``` also contains a python asyncio-based gemm simulator that **share same meta program** with CUDA code, enable gemm visualization and easy debug experience.
 
+## Important Notice
+
+**INT32 Data Range Limitation**: The original cumm matrix multiplication operation raises an error when encountering int32 data ranges. When the mesh is very large, this error is inevitable. This codebase includes a fix for this issue using a coarse method, allowing it to work with data ranges exceeding int32. **Please note that this is a development version of the code - do not use for training purposes**. The fix has been verified to work correctly in testing scenarios.
+
+If you find this fix helpful for your research, please cite:
+
+```latex
+@article{wu2025unilat3d,
+  title={UniLat3D: Geometry-Appearance Unified Latents for Single-Stage 3D Generation},
+  author={Wu, Guanjun and Fang, Jiemin and Yang, Chen and Li, Sikuang and Yi, Taoran and Lu, Jia and Zhou, Zanwei and Cen, Jiazhong and Xie, Lingxi and Zhang, Xiaopeng and Wei, Wei and Liu, Wenyu and Wang, Xinggang and Tian, Qi},
+  journal={arXiv preprint arXiv:2509.25079},
+  year={2025}
+}
+```
+
 ## BREAKING CHANGES
 
 * 0.3.1: tv::DType enum value changed, this will affect all binary code of tv::Tensor user. you must recompile all code if upgrade to cumm >= 0.3.1.
