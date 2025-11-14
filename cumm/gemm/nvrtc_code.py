@@ -84,8 +84,8 @@ def nvrtc_gemm_template(code: pccm.FunctionCode):
         }}else{{
             m = a.dim(0);
         }}
-        # TV_ASSERT_RT_ERR(int64_t(a.dim(0)) * int64_t(a.dim(1)) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
-        #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+        // TV_ASSERT_RT_ERR(int64_t(a.dim(0)) * int64_t(a.dim(1)) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
+        //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
 
         k = a_ten.dim(int(!trans_a));
         k2 = b_ten.dim(int(trans_b));
@@ -101,10 +101,10 @@ def nvrtc_gemm_template(code: pccm.FunctionCode):
         k = a_inds.dim(0);
         k2 = b_inds.dim(0);
         n = b_ten.dim(int(!trans_b) );
-        # TV_ASSERT_RT_ERR(int64_t(a.dim(0)) * int64_t(a.dim(1)) * tv::bit_size(algo_desp.dtype_a)/ 8 < int_max, 
-        #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
-        # TV_ASSERT_RT_ERR(int64_t(b.dim(0)) * int64_t(b.dim(1)) * tv::bit_size(algo_desp.dtype_b) / 8 < int_max, 
-        #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+        // TV_ASSERT_RT_ERR(int64_t(a.dim(0)) * int64_t(a.dim(1)) * tv::bit_size(algo_desp.dtype_a)/ 8 < int_max, 
+        //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+        // TV_ASSERT_RT_ERR(int64_t(b.dim(0)) * int64_t(b.dim(1)) * tv::bit_size(algo_desp.dtype_b) / 8 < int_max, 
+        //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
         if (trans_c){{
             tv::check_shape(c_ten, {{n, m}});
         }}else{{

@@ -213,7 +213,7 @@ def test_nvrtc_problem():
     """,
         opts=["--std=c++17", "-I",
               str(TENSORVIEW_INCLUDE_PATH), 
-              "-I", os.path.join(os.getenv("CUDA_HOME", "/usr/local/cuda"), "include"), "--gpu-architecture=sm_52"])
+              "-I", "/usr/local/cuda/include", "--gpu-architecture=sm_52"])
     print(prog.ptx())
 
 def test_cpu_v0():

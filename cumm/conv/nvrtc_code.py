@@ -128,18 +128,18 @@ def nvrtc_conv_template(code: pccm.FunctionCode):
         N = indices.dim(1);
         if (algo_desp.op_type == tv::gemm::ConvOpType::kBackwardWeight){{
             TV_ASSERT_RT_ERR(N == output.dim(0), "error");
-            # TV_ASSERT_RT_ERR(int64_t(N) * int64_t(C) * tv::bit_size(algo_desp.dtype_b) / 8 < int_max, 
-            #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
-            # TV_ASSERT_RT_ERR(int64_t(N) * int64_t(K) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
-            #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+            // TV_ASSERT_RT_ERR(int64_t(N) * int64_t(C) * tv::bit_size(algo_desp.dtype_b) / 8 < int_max, 
+            //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+            // TV_ASSERT_RT_ERR(int64_t(N) * int64_t(K) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
+            //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
 
         }}else if (algo_desp.op_type == tv::gemm::ConvOpType::kForward){{
             TV_ASSERT_RT_ERR(N == output.dim(0), "error");
-            # TV_ASSERT_RT_ERR(int64_t(N) * int64_t(C) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
-            #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+            // TV_ASSERT_RT_ERR(int64_t(N) * int64_t(C) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
+            //     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
         }}else{{
-                # TV_ASSERT_RT_ERR(int64_t(N) * int64_t(K) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
-                #     "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
+            //     TV_ASSERT_RT_ERR(int64_t(N) * int64_t(K) * tv::bit_size(algo_desp.dtype_a) / 8 < int_max, 
+            //         "your data exceed int32 range. this will be fixed in cumm + nvrtc (spconv 2.2/2.3).");
                 TV_ASSERT_RT_ERR(N == input.dim(0), "error");
 
         }}

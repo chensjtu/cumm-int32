@@ -252,22 +252,18 @@ def _get_cuda_include_lib():
                         return _CACHED_CUDA_INCLUDE_LIB
             except:
                 pass 
-            # failed to get nvcc path, try CUDA_PATH/CUDA_HOME env vars, then use default cuda path
-            cuda_home = os.getenv("CUDA_PATH") or os.getenv("CUDA_HOME")
-            if cuda_home:
-                windows_cuda_root = Path(cuda_home)
-            else:
-                nvcc_version = subprocess.check_output(["nvcc", "--version"
-                                                        ]).decode("utf-8").strip()
-                nvcc_version_str = nvcc_version.split("\n")[3]
-                version_str: str = re.findall(r"release (\d+.\d+)",
-                                            nvcc_version_str)[0]
-                windows_cuda_root = Path(
-                    "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA") / f"v{version_str}"
+            # failed to get nvcc path, use default cuda path
+            nvcc_version = subprocess.check_output(["nvcc", "--version"
+                                                    ]).decode("utf-8").strip()
+            nvcc_version_str = nvcc_version.split("\n")[3]
+            version_str: str = re.findall(r"release (\d+.\d+)",
+                                        nvcc_version_str)[0]
+            windows_cuda_root = Path(
+                "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA")
             if not windows_cuda_root.exists():
                 raise ValueError(f"can't find cuda in {windows_cuda_root}. install via cuda installer or conda first.")
-            include = windows_cuda_root / "include"
-            lib64 = windows_cuda_root / "lib" / "x64"
+            include = windows_cuda_root / f"v{version_str}\\include"
+            lib64 = windows_cuda_root / f"v{version_str}\\lib\\x64"
         else:
             try:
                 nvcc_path = subprocess.check_output(["which", "nvcc"
@@ -281,15 +277,10 @@ def _get_cuda_include_lib():
                         return _CACHED_CUDA_INCLUDE_LIB
             except:
                 pass 
-            
-            # Try CUDA_HOME/CUDA_PATH env vars, then fall back to default path
-            cuda_home = os.getenv("CUDA_HOME") or os.getenv("CUDA_PATH")
-            if cuda_home:
-                linux_cuda_root = Path(cuda_home)
-            else:
-                linux_cuda_root = Path("/usr/local/cuda")
-            include = linux_cuda_root / "include"
-            lib64 = linux_cuda_root / "lib64"
+
+            linux_cuda_root = Path(os.getenv("CUDA_HOME", "/usr/local/cuda"))
+            include = linux_cuda_root / f"include"
+            lib64 = linux_cuda_root / f"lib64"
             assert linux_cuda_root.exists(), f"can't find cuda in {linux_cuda_root} install via cuda installer or conda first."
         _CACHED_CUDA_INCLUDE_LIB = ([include], lib64)
         return _CACHED_CUDA_INCLUDE_LIB
